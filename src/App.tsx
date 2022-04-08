@@ -1,27 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './components/Modal/Modal';
 import './App.scss';
 
-interface Props {
-  onClick: () => void;
-}
-
-export const Provider: React.FC<Props> = React.memo(
-  ({ onClick, children }) => (
-    <button
-      type="button"
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  ),
-);
-
 export const App: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   return (
     <div className="starter">
-      <Provider onClick={() => ({})}>
-        <TodoList />
-      </Provider>
+      <h1>Modal tt</h1>
+      <button type="button" onClick={() => setIsModalOpen(true)}>Call modal vindov</button>
+      {isModalOpen && <Modal open={setIsModalOpen} onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
