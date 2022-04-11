@@ -1,17 +1,12 @@
 /* eslint-disable no-console */
 import React, { FC, useState } from 'react';
-import Select, { SingleValue } from 'react-select';
+import { SingleValue } from 'react-select';
+import { Weekly } from '../Weekly/Weekly';
+import { options } from '../consts';
+// import Daily from '../Daily/Daily';
+import Specific from '../Specific/Specific';
 import './Form.scss';
-
-const options: OptionType[] = [
-  { value: 'Monday', label: 'Monday' },
-  { value: 'Tuesday', label: 'Tuesday' },
-  { value: 'Wednesday', label: 'Wednesday' },
-  { value: 'Thursday', label: 'Thursday' },
-  { value: 'Friday', label: 'Friday' },
-  { value: 'Saturday', label: 'Saturday' },
-  { value: 'Sunday', label: 'Sunday' },
-];
+import Daily from '../Daily/Daily';
 
 // interface FormProps {}
 
@@ -22,14 +17,10 @@ const Form: FC = () => {
   const [time, setTime] = useState('');
   const [schediule, setSchediule] = useState('No');
   const [format, setFormat] = useState('Exel');
-  const [selectedOption, setSelectedOption] = useState< SingleValue<OptionType>>(options[0]);
+  const [selectedOption, setSelectedOption] = useState<SingleValue<OptionType>>(options[0]);
 
   const printDate = () => {
     console.log(date, time, selectedOption?.value);
-  };
-
-  const handleChange = (option: SingleValue<OptionType>) => {
-    setSelectedOption(option);
   };
 
   return (
@@ -121,35 +112,32 @@ const Form: FC = () => {
           Weekly
         </label>
       </div>
+      <div className="report__date">
+        {schediule === 'Weekly' && (
+          <Weekly
+            setSelectedOption={setSelectedOption}
+            selectedOption={selectedOption}
+            time={time}
+            setTime={setTime}
+          />
+        )}
+      </div>
       {schediule === 'Specific' && (
-        <div className="report__date">
-          <input
-            type="date"
-            name="date"
-            id="date"
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <span>at</span>
-          <input
-            type="time"
-            name="time"
-            id="time"
-            onChange={(e) => setTime(e.target.value)}
-          />
-        </div>
+        <Specific
+          date={date}
+          setDate={setDate}
+          time={time}
+          setTime={setTime}
+        />
       )}
       {schediule === 'Daily' && (
-        <div className="report__date">
-          <input
-            type="time"
-            name="time"
-            id="time"
-            onChange={(e) => setTime(e.target.value)}
-          />
-        </div>
+        <Daily
+          time={time}
+          setTime={setTime}
+        />
       )}
-      {schediule === 'Weekly' && (
-        <>
+      {/* {schediule === 'Weekly' && (
+        <div className="report__date">
           <Select
             placeholder="Select Device..."
             options={options}
@@ -162,8 +150,8 @@ const Form: FC = () => {
             id="time"
             onChange={(e) => setTime(e.target.value)}
           />
-        </>
-      )}
+        </div>
+      )} */}
       <button type="button" onClick={printDate}>print</button>
     </form>
   );
