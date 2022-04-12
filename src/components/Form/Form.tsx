@@ -1,33 +1,56 @@
-/* eslint-disable no-console */
 import React, { FC, useState } from 'react';
 import { SingleValue } from 'react-select';
 import { Weekly } from '../Weekly/Weekly';
-import { options } from '../consts';
-// import Daily from '../Daily/Daily';
+// import { options } from '../consts';
 import Specific from '../Specific/Specific';
 import './Form.scss';
 import Daily from '../Daily/Daily';
 
-// interface FormProps {}
+interface FormProps {
+  name: string
+  setName: (name: string) => void;
+  email: string
+  setEmail: (email: string) => void;
+  date: string;
+  setDate: (date: string) => void
+  time: string;
+  setTime: (time: string) => void;
+  selectedOption: SingleValue<OptionType>;
+  setSelectedOption: (selectedOption: SingleValue<OptionType>) => void;
+  onClose: () => void;
+  setSelectOk: (selectOk: boolean) => void;
+  submit: () => void;
+}
 
-const Form: FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
+const Form: FC<FormProps> = (props) => {
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    date,
+    setDate,
+    time,
+    setTime,
+    selectedOption,
+    setSelectedOption,
+    onClose,
+    setSelectOk,
+    submit,
+  } = props;
   const [schediule, setSchediule] = useState('No');
   const [format, setFormat] = useState('Exel');
-  const [selectedOption, setSelectedOption] = useState<SingleValue<OptionType>>(options[0]);
 
-  const printDate = () => {
-    console.log(date, time, selectedOption?.value);
-  };
+  if (schediule === 'Weekly') {
+    setSelectOk(true);
+  }
 
   return (
-    <form className="report">
+    <form className="report" onSubmit={submit}>
       <label className="report__lable" htmlFor="name">
         Enter your name:
         <input
+          required
           className="report__input report__input-name"
           id="name"
           type="text"
@@ -38,7 +61,6 @@ const Form: FC = () => {
       <div className="report__format">
         <span>Format</span>
         <label htmlFor="exel">
-          Exel
           <input
             type="radio"
             value="Exel"
@@ -46,9 +68,9 @@ const Form: FC = () => {
             checked={format === 'Exel'}
             onChange={(e) => setFormat(e.target.value)}
           />
+          Exel
         </label>
         <label htmlFor="csv">
-          CSV
           <input
             type="radio"
             value="CSV"
@@ -56,11 +78,13 @@ const Form: FC = () => {
             checked={format === 'CSV'}
             onChange={(e) => setFormat(e.target.value)}
           />
+          CSV
         </label>
       </div>
       <label className="report__lable" htmlFor="email">
         E-mail to:
         <input
+          required
           className="report__input report__input-email"
           id="email"
           type="text"
@@ -68,7 +92,6 @@ const Form: FC = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <span>Schedule</span>
       <div className="report__schedule">
         <span>Schedule</span>
         <label htmlFor="no">
@@ -136,23 +159,10 @@ const Form: FC = () => {
           setTime={setTime}
         />
       )}
-      {/* {schediule === 'Weekly' && (
-        <div className="report__date">
-          <Select
-            placeholder="Select Device..."
-            options={options}
-            onChange={opt => handleChange(opt)}
-            value={selectedOption}
-          />
-          <input
-            type="time"
-            name="time"
-            id="time"
-            onChange={(e) => setTime(e.target.value)}
-          />
-        </div>
-      )} */}
-      <button type="button" onClick={printDate}>print</button>
+      <div className="modal__fotter">
+        <button type="button" onClick={onClose}>Send</button>
+        <button type="submit">print</button>
+      </div>
     </form>
   );
 };

@@ -9,7 +9,12 @@ export const App: React.FC = () => {
     <div className="starter">
       <h1>Modal tt</h1>
       <button type="button" onClick={() => setIsModalOpen(true)}>Call modal vindov</button>
-      {isModalOpen && <Modal open={setIsModalOpen} onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <Modal
+          open={setIsModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
