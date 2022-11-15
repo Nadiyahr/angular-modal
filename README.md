@@ -1,3 +1,3 @@
 # Available Scripts
 
-[DEMO](https://nadiyahr.github.io/modal-tt/)
+[DEMO](https://nadiyahr.github.io/angular-modal/)
